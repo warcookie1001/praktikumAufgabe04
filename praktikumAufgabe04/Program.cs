@@ -14,7 +14,8 @@ namespace praktikumAufgabe04
             const int limit = 500;
             const int startGuthaben = 200;
             const int startEinsatz = 5;
-            string meineFarbe = "schwarz";
+            string meineFarbe = "rot";
+            const bool zeigeEinzelneWuerfe = false;
 
             int guthaben;
             int countingSpieltag;
@@ -57,8 +58,11 @@ namespace praktikumAufgabe04
 
 
                     // Ergebnis ausgeben
-                    //Console.WriteLine("Gefallen ist {0}, {1}.", zahl, farbe);
-                    //Console.WriteLine("Neues Guthaben: " + guthaben);
+                    if (zeigeEinzelneWuerfe == true)
+                    {
+                        Console.WriteLine("Gefallen ist {0}, {1}.", zahl, farbe);
+                        Console.WriteLine("Neues Guthaben: " + guthaben);
+                    }
 
                 }
                 Console.WriteLine("----------------------------------------------------------");
