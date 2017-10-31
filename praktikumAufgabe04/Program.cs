@@ -14,11 +14,13 @@ namespace praktikumAufgabe04
             const int limit = 500;
             const int startGuthaben = 200;
             const int startEinsatz = 5;
-            string meineFarbe = "schwarz";
+            string meineFarbe = "rot";
 
             int guthaben;
             int countingSpieltag;
             int gesamtGewinn = 0;
+            int tageGewonnen = 0;
+            int tageVerloren = 0;
             string farbe;
 
             // Zufallszahlengenerator initialisieren
@@ -59,13 +61,21 @@ namespace praktikumAufgabe04
                     Console.WriteLine("Neues Guthaben: " + guthaben);
 
                 }
-
+                Console.WriteLine("----------------------------------------------------------");
                 Console.WriteLine("Ergebnis Spieltag {0}: {1}", countingSpieltag, (guthaben - 200));
 
                 gesamtGewinn += (guthaben - 200);
+                if (guthaben < 5)
+                    tageVerloren++;
+                else
+                    tageGewonnen++;
 
             }
+            Console.WriteLine("----------------------------------------------------------");
+            Console.WriteLine("----------------------------------------------------------");
             Console.WriteLine("Gesamtgewinn: " + gesamtGewinn);
+            Console.WriteLine("Spieltage gewonnen: " + tageGewonnen);
+            Console.WriteLine("Spieltage verloren: " + tageVerloren);
             Console.ReadLine();
         }
     }
