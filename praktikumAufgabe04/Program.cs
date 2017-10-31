@@ -14,7 +14,7 @@ namespace praktikumAufgabe04
             const int limit = 500;
             const int startGuthaben = 200;
             const int startEinsatz = 5;
-            string meineFarbe = "rot";
+            string meineFarbe = "schwarz";
 
             int guthaben;
             int countingSpieltag;
@@ -35,7 +35,7 @@ namespace praktikumAufgabe04
 
                 guthaben = startGuthaben;
 
-                while (guthaben > 5 && guthaben < 500)
+                while (guthaben >= startEinsatz && guthaben < limit) 
                 {
 
                     int zahl = zufall.Next(0, 37);
@@ -57,8 +57,8 @@ namespace praktikumAufgabe04
 
 
                     // Ergebnis ausgeben
-                    Console.WriteLine("Gefallen ist {0}, {1}.", zahl, farbe);
-                    Console.WriteLine("Neues Guthaben: " + guthaben);
+                    //Console.WriteLine("Gefallen ist {0}, {1}.", zahl, farbe);
+                    //Console.WriteLine("Neues Guthaben: " + guthaben);
 
                 }
                 Console.WriteLine("----------------------------------------------------------");
@@ -67,7 +67,7 @@ namespace praktikumAufgabe04
                 gesamtGewinn += (guthaben - 200);
                 if (guthaben < 5)
                     tageVerloren++;
-                else
+                else if (guthaben>=500)
                     tageGewonnen++;
 
             }
