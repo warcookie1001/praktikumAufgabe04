@@ -51,7 +51,7 @@ namespace praktikumAufgabe04
 
                     // Überprüfen ob Farbe richtig gewählt und guthaben anpassen
                     if (farbe == meineFarbe)
-                        guthaben += (startEinsatz * 2);
+                        guthaben += startEinsatz;
                     else
                         guthaben -= startEinsatz;
 
