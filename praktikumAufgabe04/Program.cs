@@ -15,7 +15,7 @@ namespace praktikumAufgabe04
             const int startGuthaben = 200;
             const int startEinsatz = 5;
             string meineFarbe = "rot";
-            const bool zeigeEinzelneWuerfe = false;
+            const bool zeigeEinzelneWuerfe = true;
 
             int guthaben;
             int countingSpieltag;
