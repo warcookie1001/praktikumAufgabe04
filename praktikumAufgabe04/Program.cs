@@ -10,15 +10,16 @@ namespace praktikumAufgabe04
     {
         static void Main(string[] args)
         {
-            const int spielTage = 1000;
+            const int spielTage = 1000000;
             const int limit = 500;
             const int startGuthaben = 200;
             const int startEinsatz = 5;
             string meineFarbe = "rot";
-            const bool zeigeEinzelneWuerfe = true;
+            const int loggingLevel = 0;
 
             int guthaben;
-            int countingSpieltag;
+            int einsatz;
+            int aktuellerSpieltag;
             int gesamtGewinn = 0;
             int tageGewonnen = 0;
             int tageVerloren = 0;
@@ -28,17 +29,18 @@ namespace praktikumAufgabe04
             Random zufall = new Random();
             // Kugel werfen: Zufallszahl zwischen 0 und 36 bestimmen
 
-            for (countingSpieltag = 1; countingSpieltag <= spielTage; countingSpieltag++)
-            {
-                Console.WriteLine("----------------------------------------------------------");
-                Console.WriteLine("Spieltag " + countingSpieltag);
-                Console.WriteLine("----------------------------------------------------------");
+            for (aktuellerSpieltag = 1; aktuellerSpieltag <= spielTage; aktuellerSpieltag++)
+            
+                //Console.WriteLine("----------------------------------------------------------");
+                //Console.WriteLine("Spieltag " + aktuellerSpieltag);
+                //Console.WriteLine("----------------------------------------------------------");
 
                 guthaben = startGuthaben;
+                einsatz = startEinsatz;
 
                 while (guthaben >= startEinsatz && guthaben < limit) 
                 {
-
+                    //Console.WriteLine("Einsatz: " + einsatz);
                     int zahl = zufall.Next(0, 37);
                     // Farbe rot oder schwarz bestimmen
 
@@ -49,11 +51,26 @@ namespace praktikumAufgabe04
                     else
                         farbe = "schwarz";
 
+                    //Console.WriteLine("Einsatz: " + einsatz);
+
                     // Überprüfen ob Farbe richtig gewählt und guthaben anpassen
                     if (farbe == meineFarbe)
-                        guthaben += startEinsatz;
+                    {
+                        guthaben += einsatz;
+                        einsatz = startEinsatz;
+                    }
+
                     else
-                        guthaben -= startEinsatz;
+                    {
+                        guthaben -= einsatz;
+                        einsatz *= 2;
+                    }
+
+                    if (guthaben<einsatz)
+                    {
+                        einsatz = guthaben;
+                    }
+                        
 
 
 
@@ -65,8 +82,8 @@ namespace praktikumAufgabe04
                     }
 
                 }
-                Console.WriteLine("----------------------------------------------------------");
-                Console.WriteLine("Ergebnis Spieltag {0}: {1}", countingSpieltag, (guthaben - 200));
+                //Console.WriteLine("----------------------------------------------------------");
+                //Console.WriteLine("Ergebnis Spieltag {0}: {1}", aktuellerSpieltag, (guthaben - 200));
 
                 gesamtGewinn += (guthaben - 200);
                 if (guthaben < 5)
