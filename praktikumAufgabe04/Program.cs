@@ -10,31 +10,39 @@ namespace praktikumAufgabe04
     {
         static void Main(string[] args)
         {
-            const int spielTage = 100;
-            const int limit = 500;
-            const int startGuthaben = 200;
-            const int startEinsatz = 5;
-            string meineFarbe = "rot";
-            const int loggingLevel = 2; //0 - 2
+            //--------------------------------------------------------------------
+            //Einstellungen des Programms, hier editieren
+            const int spielTage = 100;      //Anzahl an Spieltagen, die simuliert werden
+            const int limit = 500;          //Ausstiegslimit pro Spieltag
+            const int startGuthaben = 200;  //Startguthaben pro Spieltag
+            const int startEinsatz = 5;     //(Start-)Einsatz 
+            string meineFarbe = "rot";      //Farbe auf die gesetzt wird
 
-            int guthaben;
-            int einsatz;
-            int aktuellerSpieltag;
-            int gesamtGewinn = 0;
-            int tageGewonnen = 0;
-            int tageVerloren = 0;
-            string farbe;
-            int[] statistikZahlen = new int[37];
+            const int loggingLevel = 0;     //Level der Konsolenausgabe (0-2) | 0:Nur Ausgabe des Gesammtergebnisses
+                                            //1: Ausgabe des Ergebnisses pro Spieltag | 2: Ausgabe jedes einzelnen Wurfes
+            const bool createStatistics = true; //True: es wird gespeichert, welche Zahl wie oft getroffen wurde und am Ende eine Statistik ausgegeben 
+            //---------------------------------------------------------------------
+
+            //Deklaration anderer Variablen - Finger weg!
+            int guthaben;           //Laufendes Guthaben eines Spieltages
+            int einsatz;            //Laufender Einsatz eines Spieltages
+            int aktuellerSpieltag;  //Zähler des aktuellen Spieltages
+            int gesamtGewinn = 0;   //Gesamtgewinn aller Spieltage
+            int tageGewonnen = 0;   //Zähler der gewonnenen Spieltage
+            int tageVerloren = 0;   //Zähler der verlorenen Spieltage
+            string farbe;           //aktuell "geworfene" Farbe
+            int[] statistikZahlen = new int[37];    //Array zur Speicherung wie oft jede Zahl "geworfen" wurde
+                
 
             // Zufallszahlengenerator initialisieren
             Random zufall = new Random();
             //Array zur Statistik initialisieren
             foreach (int i in statistikZahlen)
-                statistikZahlen[i] = 0;
+                statistikZahlen[i] = 0; //Initialisiert jeden Wert des Arrays mit 0
 
 
-            // Kugel werfen: Zufallszahl zwischen 0 und 36 bestimmen
-
+            
+            //Schleife, bestimmt Anzahl an Spieltagen 
             for (aktuellerSpieltag = 1; aktuellerSpieltag <= spielTage; aktuellerSpieltag++)
             {
 
@@ -45,10 +53,11 @@ namespace praktikumAufgabe04
                     Console.WriteLine("----------------------------------------------------------");
                 }
                
-
+                //Setzt guthaben und einsatz am Anfang jedes Spieltages auf eingestellte Werte
                 guthaben = startGuthaben;
                 einsatz = startEinsatz;
 
+                //Schleife, bestimmt wie lange pro Spieltag gespielt wird
                 while (guthaben >= startEinsatz && guthaben < limit)
                 {
                     //neue Zahl "Werfen"
@@ -60,8 +69,9 @@ namespace praktikumAufgabe04
                         farbe = "rot";
                     else
                         farbe = "schwarz";
-                    //Getroffene Zahl zum statistik-Array hinzufügen
-                    statistikZahlen[zahl]++;
+                    //Getroffene Zahl zum statistik-Array hinzufügen wenn createStatistics==true
+                    if (createStatistics==true)
+                        statistikZahlen[zahl]++;
                     
 
                     // Überprüfen ob Farbe richtig gewählt und guthaben anpassen
@@ -70,13 +80,13 @@ namespace praktikumAufgabe04
                         guthaben += einsatz;
                         einsatz = startEinsatz;
                     }
-
                     else
                     {
                         guthaben -= einsatz;
                         einsatz *= 2;
                     }
 
+                    //Abfrage, geht sicher das einsatz nicht größer als das Guthaben wird
                     if (guthaben < einsatz)
                     {
                         einsatz = guthaben;
@@ -85,10 +95,11 @@ namespace praktikumAufgabe04
 
 
 
-                    // Ergebnis ausgeben
+                    // Einzelne Würfe ausgeben (nur wenn loggingLevel 2 (oder größer))
                     if (loggingLevel >= 2)
                     {
                         Console.Write("Gefallen ist {0}, ", zahl);
+                        //Bestimmung der Farbausgabe in Konsole
                         if (farbe == "grün")
                             Console.ForegroundColor = ConsoleColor.Green;
                         else if (farbe == "rot")
@@ -98,28 +109,34 @@ namespace praktikumAufgabe04
                             Console.ForegroundColor = ConsoleColor.Black;
                             Console.BackgroundColor = ConsoleColor.DarkGray;
                         }
-
                         Console.Write("{0}", farbe);
 
                         Console.ResetColor();
                         Console.WriteLine(".");
                         Console.WriteLine("Neues Guthaben: " + guthaben);
                     }
-
+                //ENDE Schleife Spieltag
                 }
+
+                //Ausgabe des Ergebniss des Spieltages, nur wenn loggingLevel 1 oder größer
                 if (loggingLevel >= 1)
                 {
                 Console.WriteLine("----------------------------------------------------------");
                 Console.WriteLine("Ergebnis Spieltag {0}: {1}", aktuellerSpieltag, (guthaben - 200));
                 }
 
-                gesamtGewinn += (guthaben - 200);
+                //Bestimmung des Gewinns/Verlust des Spieltages, addieren zu gesammtGewinn
+                gesamtGewinn += (guthaben - startGuthaben);
+                //Bestimmen ob Spieltag Verloren oder Gewonnen, hochsetzen des entsprechenden Zählers
                 if (guthaben < 5)
                     tageVerloren++;
                 else if (guthaben >= 500)
                     tageGewonnen++;
-
+            
+            //ENDE Schleife aller Spieltage
             }
+
+            //Ausgabe des Gesamtergebnisses
             Console.WriteLine("----------------------------------------------------------");
             Console.WriteLine("----------------------------------------------------------");
             Console.WriteLine("Gesamtgewinn: " + gesamtGewinn);
