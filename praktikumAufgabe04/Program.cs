@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace praktikumAufgabe04
 {
     class Program
-    {   //test
+    {   
         static void Main(string[] args)
         {
             //--------------------------------------------------------------------
