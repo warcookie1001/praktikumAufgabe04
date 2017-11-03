@@ -10,12 +10,12 @@ namespace praktikumAufgabe04
     {
         static void Main(string[] args)
         {
-            const int spielTage = 1000000;
+            const int spielTage = 100;
             const int limit = 500;
             const int startGuthaben = 200;
             const int startEinsatz = 5;
             string meineFarbe = "rot";
-            const int loggingLevel = 0;
+            const int loggingLevel = 2; //0 - 2
 
             int guthaben;
             int einsatz;
@@ -24,34 +24,45 @@ namespace praktikumAufgabe04
             int tageGewonnen = 0;
             int tageVerloren = 0;
             string farbe;
+            int[] statistikZahlen = new int[37];
 
             // Zufallszahlengenerator initialisieren
             Random zufall = new Random();
+            //Array zur Statistik initialisieren
+            foreach (int i in statistikZahlen)
+                statistikZahlen[i] = 0;
+
+
             // Kugel werfen: Zufallszahl zwischen 0 und 36 bestimmen
 
             for (aktuellerSpieltag = 1; aktuellerSpieltag <= spielTage; aktuellerSpieltag++)
-            
-                //Console.WriteLine("----------------------------------------------------------");
-                //Console.WriteLine("Spieltag " + aktuellerSpieltag);
-                //Console.WriteLine("----------------------------------------------------------");
+            {
+
+                if (loggingLevel >= 2)
+                {
+                    Console.WriteLine("----------------------------------------------------------");
+                    Console.WriteLine("Spieltag " + aktuellerSpieltag);
+                    Console.WriteLine("----------------------------------------------------------");
+                }
+               
 
                 guthaben = startGuthaben;
                 einsatz = startEinsatz;
 
-                while (guthaben >= startEinsatz && guthaben < limit) 
+                while (guthaben >= startEinsatz && guthaben < limit)
                 {
-                    //Console.WriteLine("Einsatz: " + einsatz);
+                    //neue Zahl "Werfen"
                     int zahl = zufall.Next(0, 37);
                     // Farbe rot oder schwarz bestimmen
-
                     if (zahl == 0)
                         farbe = "grün";
                     else if (zahl % 2 == 1)
                         farbe = "rot";
                     else
                         farbe = "schwarz";
-
-                    //Console.WriteLine("Einsatz: " + einsatz);
+                    //Getroffene Zahl zum statistik-Array hinzufügen
+                    statistikZahlen[zahl]++;
+                    
 
                     // Überprüfen ob Farbe richtig gewählt und guthaben anpassen
                     if (farbe == meineFarbe)
@@ -66,29 +77,46 @@ namespace praktikumAufgabe04
                         einsatz *= 2;
                     }
 
-                    if (guthaben<einsatz)
+                    if (guthaben < einsatz)
                     {
                         einsatz = guthaben;
                     }
-                        
+
 
 
 
                     // Ergebnis ausgeben
-                    if (zeigeEinzelneWuerfe == true)
+                    if (loggingLevel >= 2)
                     {
-                        Console.WriteLine("Gefallen ist {0}, {1}.", zahl, farbe);
+                        Console.Write("Gefallen ist {0}, ", zahl);
+                        if (farbe == "grün")
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        else if (farbe == "rot")
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        else if (farbe == "schwarz")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.DarkGray;
+                        }
+
+                        Console.Write("{0}", farbe);
+
+                        Console.ResetColor();
+                        Console.WriteLine(".");
                         Console.WriteLine("Neues Guthaben: " + guthaben);
                     }
 
                 }
-                //Console.WriteLine("----------------------------------------------------------");
-                //Console.WriteLine("Ergebnis Spieltag {0}: {1}", aktuellerSpieltag, (guthaben - 200));
+                if (loggingLevel >= 1)
+                {
+                Console.WriteLine("----------------------------------------------------------");
+                Console.WriteLine("Ergebnis Spieltag {0}: {1}", aktuellerSpieltag, (guthaben - 200));
+                }
 
                 gesamtGewinn += (guthaben - 200);
                 if (guthaben < 5)
                     tageVerloren++;
-                else if (guthaben>=500)
+                else if (guthaben >= 500)
                     tageGewonnen++;
 
             }
@@ -98,6 +126,7 @@ namespace praktikumAufgabe04
             Console.WriteLine("Spieltage gewonnen: " + tageGewonnen);
             Console.WriteLine("Spieltage verloren: " + tageVerloren);
             Console.ReadLine();
+
         }
     }
 }
