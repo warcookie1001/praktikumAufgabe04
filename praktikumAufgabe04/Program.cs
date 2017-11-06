@@ -20,13 +20,13 @@ namespace praktikumAufgabe04
         {
             //--------------------------------------------------------------------
             //Einstellungen des Programms, hier editieren
-            const int spielTage = 1000000;        //Anzahl an Spieltagen, die simuliert werden
+            const int spielTage = 1000;        //Anzahl an Spieltagen, die simuliert werden
             const int limit = 500;          //Ausstiegslimit pro Spieltag
             const int startGuthaben = 200;  //Startguthaben pro Spieltag
             const int startEinsatz = 5;     //(Start-)Einsatz 
             string meineFarbe = "rot";      //Farbe auf die gesetzt wird
 
-            const int loggingLevel = 0;     //Level der Konsolenausgabe (0-2) | 0:Nur Ausgabe des Gesammtergebnisses
+            const int loggingLevel = 2;     //Level der Konsolenausgabe (0-2) | 0:Nur Ausgabe des Gesammtergebnisses
                                             //1: Ausgabe des Ergebnisses pro Spieltag | 2: Ausgabe jedes einzelnen Wurfes
             //---------------------------------------------------------------------
 
