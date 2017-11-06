@@ -20,13 +20,13 @@ namespace praktikumAufgabe04
         {
             //--------------------------------------------------------------------
             //Einstellungen des Programms, hier editieren
-            const int spielTage = 100;        //Anzahl an Spieltagen, die simuliert werden
+            const int spielTage = 1000000;        //Anzahl an Spieltagen, die simuliert werden
             const int limit = 500;          //Ausstiegslimit pro Spieltag
             const int startGuthaben = 200;  //Startguthaben pro Spieltag
             const int startEinsatz = 5;     //(Start-)Einsatz 
             string meineFarbe = "rot";      //Farbe auf die gesetzt wird
 
-            const int loggingLevel = 1;     //Level der Konsolenausgabe (0-2) | 0:Nur Ausgabe des Gesammtergebnisses
+            const int loggingLevel = 0;     //Level der Konsolenausgabe (0-2) | 0:Nur Ausgabe des Gesammtergebnisses
                                             //1: Ausgabe des Ergebnisses pro Spieltag | 2: Ausgabe jedes einzelnen Wurfes
             //---------------------------------------------------------------------
 
@@ -53,11 +53,11 @@ namespace praktikumAufgabe04
                 if (loggingLevel >= 2)
                 {
                     Console.WriteLine("----------------------------------------------------------");
-                    Console.WriteLine("Spieltag " + aktuellerSpieltag);
+                    Console.WriteLine("Spieltag {0}:", aktuellerSpieltag);
                     Console.WriteLine("----------------------------------------------------------");
                 }
                
-                //Setzt guthaben und einsatz am Anfang jedes Spieltages auf eingestellte Werte
+                //Setzt guthaben und einsatz zu Beginn jedes Spieltages auf eingestellte Werte
                 guthaben = startGuthaben;
                 einsatz = startEinsatz;
 
@@ -74,7 +74,6 @@ namespace praktikumAufgabe04
                     else
                         farbe = "schwarz";
 
-                    
 
                     // Überprüfen ob Farbe richtig gewählt und guthaben anpassen
                     if (farbe == meineFarbe)
@@ -95,8 +94,6 @@ namespace praktikumAufgabe04
                     }
 
 
-
-
                     // Einzelne Würfe ausgeben (nur wenn loggingLevel 2 (oder größer))
                     if (loggingLevel >= 2)
                     {
@@ -114,7 +111,7 @@ namespace praktikumAufgabe04
                         Console.Write("{0}", farbe);
 
                         Console.ResetColor();
-                        Console.WriteLine(".");
+                        Console.Write(". ");
                         Console.WriteLine("Neues Guthaben: " + guthaben);
                     }
 
@@ -125,7 +122,10 @@ namespace praktikumAufgabe04
                 if (loggingLevel >= 1)
                 {
                 Console.WriteLine("----------------------------------------------------------");
-                Console.WriteLine("Ergebnis Spieltag {0}: {1}", aktuellerSpieltag, (guthaben - 200));
+                    if (guthaben>200)
+                        Console.WriteLine("Ergebnis Spieltag {0}: {1} gewonnen", aktuellerSpieltag, (guthaben - 200));
+                    else if (guthaben<=0)
+                        Console.WriteLine("Ergebnis Spieltag {0}: {1} verloren", aktuellerSpieltag, (-(guthaben - 200)));
                 }
 
                 //Bestimmung des Gewinns/Verlust des Spieltages, addieren zu gesammtGewinn
@@ -142,9 +142,8 @@ namespace praktikumAufgabe04
             //Ausgabe des Gesamtergebnisses
             Console.WriteLine("----------------------------------------------------------");
             Console.WriteLine("----------------------------------------------------------");
+            Console.WriteLine("{0} Spieltage, davon {1} gewonnen und {2} verloren", spielTage, tageGewonnen, tageVerloren);
             Console.WriteLine("Gesamtgewinn: " + gesamtGewinn);
-            Console.WriteLine("Spieltage gewonnen: " + tageGewonnen);
-            Console.WriteLine("Spieltage verloren: " + tageVerloren);
             Console.ReadLine();
 
         }
