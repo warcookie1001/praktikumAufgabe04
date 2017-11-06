@@ -4,6 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Dieses Programm simuliert ein Roulett-Spiel mit beliebig vielen Spieltagen und setzt dabei nach einer vorgegebenen Strategie:
+/// Es wird ein Starteinsatz auf eine Farbe gesetzt. Wird die Runde verloren, wird der Einsatz verdoppelt, so lange bis eine Runde gewonnen wird.
+/// Wird eine Runde gewonnen, wird in der nächsten wieder der Starteinsatz gesetzt.
+/// 
+/// Im ersten Block können alle Einstellungen wie z.B. die zu setzende Farbe vorgenommen werden.
+/// </summary>
+
 namespace praktikumAufgabe04
 {
     class Program
@@ -12,15 +20,14 @@ namespace praktikumAufgabe04
         {
             //--------------------------------------------------------------------
             //Einstellungen des Programms, hier editieren
-            const int spielTage = 100;      //Anzahl an Spieltagen, die simuliert werden
+            const int spielTage = 100;        //Anzahl an Spieltagen, die simuliert werden
             const int limit = 500;          //Ausstiegslimit pro Spieltag
             const int startGuthaben = 200;  //Startguthaben pro Spieltag
             const int startEinsatz = 5;     //(Start-)Einsatz 
             string meineFarbe = "rot";      //Farbe auf die gesetzt wird
 
-            const int loggingLevel = 0;     //Level der Konsolenausgabe (0-2) | 0:Nur Ausgabe des Gesammtergebnisses
+            const int loggingLevel = 1;     //Level der Konsolenausgabe (0-2) | 0:Nur Ausgabe des Gesammtergebnisses
                                             //1: Ausgabe des Ergebnisses pro Spieltag | 2: Ausgabe jedes einzelnen Wurfes
-            const bool createStatistics = true; //True: es wird gespeichert, welche Zahl wie oft getroffen wurde und am Ende eine Statistik ausgegeben 
             //---------------------------------------------------------------------
 
             //Deklaration anderer Variablen - Finger weg!
@@ -31,14 +38,11 @@ namespace praktikumAufgabe04
             int tageGewonnen = 0;   //Zähler der gewonnenen Spieltage
             int tageVerloren = 0;   //Zähler der verlorenen Spieltage
             string farbe;           //aktuell "geworfene" Farbe
-            int[] statistikZahlen = new int[37];    //Array zur Speicherung wie oft jede Zahl "geworfen" wurde
-                
+
+
 
             // Zufallszahlengenerator initialisieren
             Random zufall = new Random();
-            //Array zur Statistik initialisieren
-            foreach (int i in statistikZahlen)
-                statistikZahlen[i] = 0; //Initialisiert jeden Wert des Arrays mit 0
 
 
             
@@ -69,9 +73,7 @@ namespace praktikumAufgabe04
                         farbe = "rot";
                     else
                         farbe = "schwarz";
-                    //Getroffene Zahl zum statistik-Array hinzufügen wenn createStatistics==true
-                    if (createStatistics==true)
-                        statistikZahlen[zahl]++;
+
                     
 
                     // Überprüfen ob Farbe richtig gewählt und guthaben anpassen
@@ -115,6 +117,7 @@ namespace praktikumAufgabe04
                         Console.WriteLine(".");
                         Console.WriteLine("Neues Guthaben: " + guthaben);
                     }
+
                 //ENDE Schleife Spieltag
                 }
 
@@ -127,7 +130,7 @@ namespace praktikumAufgabe04
 
                 //Bestimmung des Gewinns/Verlust des Spieltages, addieren zu gesammtGewinn
                 gesamtGewinn += (guthaben - startGuthaben);
-                //Bestimmen ob Spieltag Verloren oder Gewonnen, hochsetzen des entsprechenden Zählers
+                //Bestimmen ob Spieltag verloren oder gewonnen, inkrementieren des entsprechenden Zählers
                 if (guthaben < 5)
                     tageVerloren++;
                 else if (guthaben >= 500)
